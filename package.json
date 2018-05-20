@@ -1,0 +1,27 @@
+{
+  "name": "automation-of-routine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/D-A-I/automation-of-routine.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/D-A-I/automation-of-routine/issues"
+  },
+  "homepage": "https://github.com/D-A-I/automation-of-routine#readme",
+  "devDependencies": {
+    "yarn": "^1.6.0"
+  },
+  "dependencies": {
+    "date-utils": "^1.2.21",
+    "selenium-webdriver": "^4.0.0-alpha.1"
+  }
+}
