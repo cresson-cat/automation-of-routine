@@ -50,7 +50,7 @@ let nowDate = new Date(); // 現在日時
         writeMessage(`残業時間：${parseInt(overTime)}H`);
 
         /* excelに書き込む */
-        // todo：2ヶ月前のファイルを削除する
+        // 2ヶ月前のファイルを削除する
         let oldDate = new Date();
         oldDate.setMonth(nowDate.getMonth() - 2);
         let oldName = `${oldDate.toFormat('YYYY')}年${oldDate.toFormat('M')}月度_見込み報告（東京第一支店）Ver1.4.xlsx`;
