@@ -64,7 +64,7 @@ let nowDate = new Date(); // 現在日時
         try {
             fs.copyFileSync(TEMPLATE_PATH, newName, fs.constants.COPYFILE_EXCL);
         } catch (err) {
-            // エラーを出力しておく
+            // エラーになった場合、既に当月のファイルが作成済
             writeMessage(`テンプレート ${newName} に追記します`);
         }
 
