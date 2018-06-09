@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* I/Oや日付関連 */
 const fs = require('fs');     // ファイルIO
 const xlsx = require('xlsx'); // xlsx操作
@@ -35,12 +36,24 @@ const tempCells = [{
     'achievement': 'S9',
     'vacation': 'T9'
 }];
+=======
+/* import */
+const fs = require('fs');     // ファイルIO
+const xlsx = require('xlsx'); // xlsx操作
+require('date-utils');        // Dateの拡張
+const webdriver = require('selenium-webdriver'); // Selenium
+const by = require('selenium-webdriver').By;     // By
+
+/* 定数 */
+const TEMPLATE_PATH = './template/temp.xlsx'; // テンプレのパス
+>>>>>>> 6b250e347c7e8dd36825b5648f3483f0368cb0a5
 
 /* 予期せぬエラーをcatchする */
 process.on('uncaughtException', function (err) {
     console.log(err);
 });
 
+<<<<<<< HEAD
 /* todo：init.jsonから初期データを取得する
  * 引数が無かった場合は、以下変数にセットする */
 
@@ -51,6 +64,11 @@ let nowDate = moment(); // 現在日時
 // ユーザIDやパスワードが未設定の場合、処理終了
 if ((userId === null || userId === undefined) || (password === null || password === undefined))
     process.exit(0);
+=======
+let userId = process.argv[2]; // 引数.. ユーザ名
+let password = process.argv[3]; // 引数.. パスワード
+let nowDate = new Date(); // 現在日時
+>>>>>>> 6b250e347c7e8dd36825b5648f3483f0368cb0a5
 
 (async function () {
     let driver = await new webdriver.Builder().forBrowser('chrome').build();
@@ -86,15 +104,22 @@ if ((userId === null || userId === undefined) || (password === null || password 
 
         /* excelに書き込む */
         // 2ヶ月前のファイルを削除する
+<<<<<<< HEAD
         let oldDate = moment().add(-2, 'months');
         // oldDate.setMonth(nowDate.getMonth() - 2);
         let oldName = `${oldDate.format('YYYY')}年${oldDate.format('M')}月度_見込み報告（東京第一支店）Ver1.4.xlsx`;
+=======
+        let oldDate = new Date();
+        oldDate.setMonth(nowDate.getMonth() - 2);
+        let oldName = `${oldDate.toFormat('YYYY')}年${oldDate.toFormat('M')}月度_見込み報告（東京第一支店）Ver1.4.xlsx`;
+>>>>>>> 6b250e347c7e8dd36825b5648f3483f0368cb0a5
         fs.unlink(oldName, (err) => {
             if (err) writeMessage(`${oldName} は未削除です`);
         });
 
         /* 当月のファイルを作成する
          * Node.jsの流儀に従って、まず試してみて、エラーが発生した場合に対処する */
+<<<<<<< HEAD
         let newName = `${nowDate.format('YYYY')}年${nowDate.format('M')}月度_見込み報告（東京第一支店）Ver1.4.xlsx`;
         /*
         try {
@@ -106,6 +131,15 @@ if ((userId === null || userId === undefined) || (password === null || password 
         */
         // ファイルコピー
         await _copy(TEMPLATE_PATH, newName);
+=======
+        let newName = `${nowDate.toFormat('YYYY')}年${nowDate.toFormat('M')}月度_見込み報告（東京第一支店）Ver1.4.xlsx`;
+        try {
+            fs.copyFileSync(TEMPLATE_PATH, newName, fs.constants.COPYFILE_EXCL);
+        } catch (err) {
+            // エラーになった場合、既に当月のファイルが作成済
+            writeMessage(`テンプレート ${newName} に追記します`);
+        }
+>>>>>>> 6b250e347c7e8dd36825b5648f3483f0368cb0a5
 
         // ファイルオープン
         let workbook = xlsx.readFile(newName);
@@ -156,8 +190,13 @@ if ((userId === null || userId === undefined) || (password === null || password 
 function writeMessage(message) {
     // （node.jsの流儀に従い）フォルダの存在チェックはしない
     fs.mkdir('./logs/', (err) => {
+<<<<<<< HEAD
         if (err && err.code === 'EEXIST') { // フォルダが存在する時のエラー
             fs.appendFile('./logs/app.log', moment().format('YYYY/MM/DD HH24:MI:SS') + ' ' + message + '\n', (err) => {
+=======
+        if (err && err.code === 'EEXIST') {
+            fs.appendFile('./logs/app.log', new Date().toFormat('YYYY/MM/DD HH24:MI:SS') + ' ' + message + '\n', (err) => {
+>>>>>>> 6b250e347c7e8dd36825b5648f3483f0368cb0a5
                 if (err) console.log(err);
             });
         }

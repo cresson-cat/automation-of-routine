@@ -59,3 +59,9 @@ typings/
 
 # next.js build output
 .next
+
+# テンプレートを除外
+.xlsx
+
+# chromedriverを除外
+chromedriver*
