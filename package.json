@@ -19,14 +19,10 @@
   "homepage": "https://github.com/D-A-I/automation-of-routine#readme",
   "devDependencies": {},
   "dependencies": {
-<<<<<<< HEAD
+    "exceljs": "^1.4.13",
     "fs-extra": "^6.0.1",
     "koyomi": "^0.5.1",
     "moment": "^2.22.2",
-=======
-    "date-utils": "^1.2.21",
->>>>>>> 6b250e347c7e8dd36825b5648f3483f0368cb0a5
-    "selenium-webdriver": "^4.0.0-alpha.1",
-    "xlsx": "^0.12.13"
+    "selenium-webdriver": "^4.0.0-alpha.1"
   }
 }

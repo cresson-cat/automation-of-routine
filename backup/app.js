@@ -1,6 +1,6 @@
 /* I/Oや日付関連 */
 const fs = require('fs'); // ファイルIO
-const Excel = require('exceljs');
+const xlsx = require('xlsx'); // xlsx操作
 const moment = require('moment'); // 日付操作
 const koyomi = require('koyomi'); // 日本営業日計算
 /* 2018/06時点で、OSによってfs.fileCopy（node.js v8.9.4）の成否が異なる 
@@ -105,52 +105,52 @@ if ((userId === null || userId === undefined) || (password === null || password 
         }
         */
         // ファイルコピー
-        await _copy(TEMPLATE_PATH, newName, { overwrite: false });
+        await _copy(TEMPLATE_PATH, newName, false);
 
         // ファイルオープン
-        let workbook = new Excel.Workbook();
-        await workbook.xlsx.readFile(newName);
-        /* exceljsで書き込んだセルの、隣接したセルの書式が変わってしまったため、
-         * 「見込み報告フォーマット」ではなく、別シート「data」に書込みする */
-        let workSheet = workbook.getWorksheet('data');
+        let workbook = xlsx.readFile(newName);
+        let worksheet = workbook.Sheets['見込み報告フォーマット'];
 
         // （初回の場合）D4に現在の月を書き込み
         // ※ D4が現在月と異なる時、初回とみなす
-        if (workSheet.getCell('D4').value !== parseFloat(nowDate.format('M'))) {
+        if (worksheet['D4'].v !== parseFloat(nowDate.format('M'))) {
             writeMessage('月初の書込みを開始します');
             // D4に現在月を書込み
-            workSheet.getCell('D4').value = parseFloat(nowDate.format('M'));
+            worksheet['D4'].v = parseFloat(nowDate.format('M'));
 
             /* GASで基本稼働時間の取得APIを作成中｡｡可能であれば、そちらも試したい
              * https://script.google.com/macros/s/AKfycbyemymH0VeIAqlInNQmuZG1tMGJ0q6zpGbLQJ19ZtKWtMgXz9v3/exec
              * ?tgtMonth=201806&baseTime=6 */
 
             // 当月の基本稼働時間を書込み
-            workSheet.getCell('E9').value = koyomi.biz(nowDate.format('YYYYMM')) * 7.5;
+            worksheet['E9'].v = koyomi.biz(nowDate.format('YYYYMM')) * 7.5;
             // 次月の基本稼働時間を書込み
-            workSheet.getCell('U9').value = koyomi.biz(nowDate.add(1, 'M').format('YYYYMM')) * 7.5;
+            worksheet['U9'].v = koyomi.biz(nowDate.add(1, 'M').format('YYYYMM')) * 7.5;
         }
 
         // 現在が何週目か判定し、書き込み先を特定する
         let weekNum = Math.floor((nowDate.date() - nowDate.day() + 12) / 7);
-        // 今日が日曜なら-1しておく
-        if(nowDate.day() === 0) weekNum = weekNum - 1;
 
         // 今週の残業実績を書き込む
-        workSheet.getCell(TMP_CELLS[weekNum - 1].achievement).value = parseFloat(overTime);
+        worksheet[TMP_CELLS[weekNum - 1].achievement].v = parseFloat(overTime);
 
         // 今週の休暇見込みを取得する
-        let prospect = workSheet.getCell(TMP_CELLS[weekNum - 1].vacation).value;
+        let prospect = worksheet[TMP_CELLS[weekNum - 1].vacation].v;
 
         // 現在週以降のセルを更新する
         for (let i = weekNum; i < TMP_CELLS.length; i++) {
             // 残業見積りを更新
-            workSheet.getCell(TMP_CELLS[i].forecast).value = parseFloat(overTime) + (i - weekNum + 1) * 3;
+            worksheet[TMP_CELLS[i].forecast].v = parseFloat(overTime) + (i - weekNum + 1) * 3;
             // 休暇見込をコピー
-            workSheet.getCell(TMP_CELLS[i].vacation).value = prospect;
+            worksheet[TMP_CELLS[i].vacation].v = prospect;
         }
+
+        // 範囲の更新
+        worksheet['!ref'] = 'A1:W41';
+        workbook.Sheets['見込み報告フォーマット'] = worksheet;
         // ファイルを保存する
-        await workbook.xlsx.writeFile(newName);
+        xlsx.writeFile(workbook, newName);
+
     } catch (err) {
         // エラーを出力しておく
         writeMessage(err);
@@ -161,7 +161,7 @@ if ((userId === null || userId === undefined) || (password === null || password 
 
 /**
  * ログ出力
- * @param {string} message
+ * @param {string} message 
  */
 function writeMessage(message) {
     // （node.jsの流儀に従い）フォルダの存在チェックはしない
