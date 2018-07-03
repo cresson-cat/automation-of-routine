@@ -47,7 +47,7 @@ module.exports = async function (overTime, conf) {
     // 定義のチェック
     if (!conf) 
         conf = {
-            'baseTime': 7.5, // 稼働時間/1D
+            'baseTime': 7.5, // 基本稼働時間/1D
             'expectedOvertime': 3 // 残業時間/1D
         };
 
