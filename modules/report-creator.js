@@ -41,8 +41,15 @@ const TMP_CELLS = [{
  * 見込報告資料作成
  * @param {string} overTime 残業時間
  */
-module.exports = async function (overTime) {
+module.exports = async function (overTime, conf) {
     writeMessage('見込み報告資料の作成を開始します');
+
+    // 定義のチェック
+    if (!conf) 
+        conf = {
+            'baseTime': 7.5,
+            'expectedOvertime': 3
+        };
 
     // 現在日時
     let nowDate = moment();
@@ -89,9 +96,9 @@ module.exports = async function (overTime) {
          * ?tgtMonth=201806&baseTime=6 */
 
         // 当月の基本稼働時間を書込み
-        workSheet.getCell('E9').value = koyomi.biz(nowDate.format('YYYYMM')) * 7.5;
+        workSheet.getCell('E9').value = koyomi.biz(nowDate.format('YYYYMM')) * conf.baseTime;
         // 次月の基本稼働時間を書込み
-        workSheet.getCell('U9').value = koyomi.biz(nowDate.add(1, 'M').format('YYYYMM')) * 7.5;
+        workSheet.getCell('U9').value = koyomi.biz(nowDate.add(1, 'M').format('YYYYMM')) * conf.baseTime;
     }
 
     // 現在が何週目か判定し、書き込み先を特定する
@@ -109,7 +116,7 @@ module.exports = async function (overTime) {
     // 現在週以降のセルを更新する
     for (let i = weekNum; i < TMP_CELLS.length; i++) {
         // 残業見積りを更新
-        workSheet.getCell(TMP_CELLS[i].forecast).value = parseFloat(overTime) + (i - weekNum + 1) * 3;
+        workSheet.getCell(TMP_CELLS[i].forecast).value = parseFloat(overTime) + (i - weekNum + 1) * conf.expectedOvertime;
         // 休暇見込をコピー
         workSheet.getCell(TMP_CELLS[i].vacation).value = prospect;
     }
