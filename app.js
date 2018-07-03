@@ -17,6 +17,8 @@ if ((userId === null || userId === undefined) || (password === null || password 
     process.exit(0);
 
 (async function () {
+    // webサイトにアクセス
     let overTime = await getOverTime(userId, password);
+    // 見込み資料を作成
     createReport(overTime);
 })();
