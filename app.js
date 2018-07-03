@@ -16,6 +16,7 @@ let password = process.argv[3]; // 引数.. パスワード
 if ((userId === null || userId === undefined) || (password === null || password === undefined))
     process.exit(0);
 
+// メイン処理開始
 (async function () {
     // webサイトにアクセス
     let overTime = await getOverTime(userId, password);
