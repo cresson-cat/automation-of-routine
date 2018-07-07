@@ -1,14 +1,14 @@
 /* Selenium */
 const webdriver = require('selenium-webdriver'); // webdriver
 const by = require('selenium-webdriver').By; // By
-/* 独自のモジュール */
+/* ログ用のモジュール */
 const writeMessage = require('./logger');
 
 /**
  * 残業時間取得
  * @param {string} userId ユーザID
  * @param {string} password パスワード
- * @returns {string} 残業時間
+ * @returns {number} 残業時間
  */
 module.exports = async function(userId, password) {
     writeMessage('-----');
@@ -34,21 +34,20 @@ module.exports = async function(userId, password) {
 
         /* 勤怠申請画面 */
         /* 残業時間の周辺に特定し易いidやclassが無い
-         * また、cssセレクタはjqueryと違って、テキストノードの文字列にマッチングできない
-         * .. 勤怠編集用のdivにidが振られているため、少し遠いが、そこから取得する */
-        // todo：xpath形式でテキストノードを検索できる。追ってxpathに変更する
-        let elem = await driver.findElement(by.css('#attendanceEditDtl + div + div')); // 勤怠編集用のdivの2番目の兄弟要素を取得
-        elem = await elem.findElement(by.css('div > div > table > thead > tr:nth-child(1)')); // tableのtrまで取得
-        elem = await elem.findElement(by.css('td + td > h3 > strong')); // "36協定"の次のtd配下から、strong要素を取得
+         * cssセレクタは（jqueryと違って）テキストノードの文字列にマッチングできない
+         * .. xpath形式で、"36協定"の隣のセルを取得する */
+        let elem = await driver.findElement(by.xpath('//small[text()="36協定"]/../../following-sibling::td'));
+        elem = await elem.findElement(by.css('h3 > strong')); // 残業時間
 
         // 残業時間取得
         let overTime = await elem.getText();
-        writeMessage(`残業時間：${parseFloat(overTime)}H`);
+        writeMessage(`  残業時間：${parseFloat(overTime)}H`);
         
-        // 残業時間を返却する
-        return overTime;
+        // 残業時間を返却する（数値に変換済）
+        return parseFloat(overTime);
     } catch (err) {
-        writeMessage(err); // エラー内容を出力
+        console.error(err); // エラーを出力しておく
+        writeMessage(err);
     } finally {
         driver.quit();
         writeMessage('Webサイトへのアクセスが完了しました');

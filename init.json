@@ -1,4 +1,5 @@
 {
+    "overTimeAt1stWk": 2,
     "baseTime": 7.5,
     "expectedOvertime": 3
 }
