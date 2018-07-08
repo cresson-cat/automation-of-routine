@@ -21,6 +21,6 @@ if ((userId === null || userId === undefined) || (password === null || password 
     // webサイトにアクセス
     let overTime = await getOverTime(userId, password);
     if (overTime === undefined || overTime === null) return;
-    // 見込み資料を作成
+    // 週次の報告資料を作成
     createReport(overTime, conf);
 })();

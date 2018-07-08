@@ -31,7 +31,7 @@ const TMP_CELLS = [{
 }];
 
 /**
- * 報告資料作成
+ * 週次の報告資料作成
  * @param {number} overTime 残業時間（H）
  * @param {object} conf 設定データ
  */
