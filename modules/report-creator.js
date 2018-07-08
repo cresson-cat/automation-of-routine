@@ -31,13 +31,13 @@ const TMP_CELLS = [{
 }];
 
 /**
- * 見込報告資料作成
+ * 報告資料作成
  * @param {number} overTime 残業時間（H）
  * @param {object} conf 設定データ
  */
 module.exports = async function (overTime, conf) {
     try {
-        writeMessage('見込み報告資料の作成を開始します');
+        writeMessage('報告資料の作成を開始します');
         // 定義のチェック
         if (!conf)
             conf = {
@@ -129,6 +129,6 @@ module.exports = async function (overTime, conf) {
         console.error(err); // エラーを出力しておく
         writeMessage(err);
     } finally {
-        writeMessage('見込み報告資料の作成が完了しました');
+        writeMessage('報告資料の作成が完了しました');
     }
 };
