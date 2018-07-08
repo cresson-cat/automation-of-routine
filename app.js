@@ -16,7 +16,7 @@ const conf = JSON.parse(fs.readFileSync('./init.json', 'utf8')); // 初期設定
 if ((userId === null || userId === undefined) || (password === null || password === undefined))
     process.exit(0);
 
-// メイン処理開始
+/* メイン処理開始 */
 (async function () {
     // webサイトにアクセス
     let overTime = await getOverTime(userId, password);
