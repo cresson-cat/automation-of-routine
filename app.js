@@ -1,6 +1,6 @@
 const fs = require('fs');
-const getOverTime = require('./modules/overtime-acquirer');
-const createReport = require('./modules/report-creator');
+const getOverTime = require('./lib/overtime-acquirer');
+const createReport = require('./lib/report-creator');
 
 /* 予期せぬエラーをcatchする */
 process.on('uncaughtException', function (err) {
