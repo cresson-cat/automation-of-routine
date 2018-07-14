@@ -1,5 +1,10 @@
 {
+    "___1週目の残業時間___": "___",
     "overTimeAt1stWk": 2,
+    "___1日の基本稼働時間___": "___",
     "baseTime": 7.5,
-    "expectedOvertime": 3
+    "___各週の予想残業時間___": "___",
+    "expectedOvertime": 3,
+    "___提出用のフォルダ___": "___",
+    "outputDir": "/Users/kanegadai/Dropbox/corp-reports/"
 }

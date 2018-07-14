@@ -1,13 +1,14 @@
 const fs = require('fs');
 const getOverTime = require('./lib/overtime-acquirer');
 const createReport = require('./lib/report-creator');
+const path = require('path');
 
 /* 予期せぬエラーをcatchする */
 process.on('uncaughtException', function (err) {
     console.log(err);
 });
 
-const userId = process.argv[2];   // 引数.. ユーザ名
+const userId = process.argv[2]; // 引数.. ユーザ名
 const password = process.argv[3]; // 引数.. パスワード
 
 // ユーザIDやパスワードが未設定の場合、処理終了
@@ -23,5 +24,20 @@ const conf = JSON.parse(fs.readFileSync('./init.json', 'utf8'));
     let overTime = await getOverTime(userId, password);
     if (overTime === undefined || overTime === null) return;
     // 週次の報告資料を作成
-    createReport(overTime, conf);
+    let fileName = await createReport(overTime, conf);
+    if (!fileName) return;
+    //#region OSによってfs.copyFileSync（node.js v8.9.4）に失敗したため、fs-extraを使う 
+    /* ・ubuntu 16.04 LTS：失敗
+     * ・macOS High Sierra 10.13.4：成功
+     * .. いずれ解決したい */
+    /*
+    try {
+        fs.copyFileSync(TEMPLATE_PATH, newName, fs.constants.COPYFILE_EXCL);
+    } catch (err) {
+        writeMessage(`テンプレート ${newName} に追記します`);
+    }
+    */
+    //#endregion
+    // 提出用のフォルダにコピーする
+    await require('fs-extra').copy(fileName, path.join(conf.outputDir, fileName));
 })();
