@@ -30,13 +30,6 @@ const conf = JSON.parse(fs.readFileSync('./init.json', 'utf8'));
     /* ・ubuntu 16.04 LTS：失敗
      * ・macOS High Sierra 10.13.4：成功
      * .. いずれ解決したい */
-    /*
-    try {
-        fs.copyFileSync(TEMPLATE_PATH, newName, fs.constants.COPYFILE_EXCL);
-    } catch (err) {
-        writeMessage(`テンプレート ${newName} に追記します`);
-    }
-    */
     //#endregion
     // 提出用のフォルダにコピーする
     await require('fs-extra').copy(fileName, path.join(conf.outputDir, fileName));
