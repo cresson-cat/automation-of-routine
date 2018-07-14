@@ -1,7 +1,7 @@
 const fs = require('fs');
+const path = require('path');
 const getOverTime = require('./lib/overtime-acquirer');
 const createReport = require('./lib/report-creator');
-const path = require('path');
 
 /* 予期せぬエラーをcatchする */
 process.on('uncaughtException', function (err) {
