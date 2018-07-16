@@ -16,6 +16,6 @@
 
 ### memo
 
-1. （linux環境で使うなら）fs -> fs-extra へ変更するかも
+1. fs -> fs-extra へ変更するかも
 
 1. （念のため）ubuntuでESLint効いてないかも｡｡要確認
