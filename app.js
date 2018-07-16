@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const getOverTime = require('./lib/overtime-acquirer');
+const getOverTime = require('./lib/overtime-capturer');
 const createReport = require('./lib/report-creator');
 
 /* 予期せぬエラーをcatchする */
@@ -8,7 +8,7 @@ process.on('uncaughtException', function (err) {
     console.log(err);
 });
 
-const userId = process.argv[2]; // 引数.. ユーザ名
+const userId = process.argv[2];   // 引数.. ユーザ名
 const password = process.argv[3]; // 引数.. パスワード
 
 // ユーザIDやパスワードが未設定の場合、処理終了
