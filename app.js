@@ -35,6 +35,6 @@ const conf = JSON.parse(fs.readFileSync('./init.json', 'utf8'));
     try {
         await require('fs-extra').copy(fileName, path.join(conf.outputDir, fileName));
     } catch (err) {
-        console.log(err); // .. promise内でエラーが発生する場合を踏まえてcatchしておく
+        console.log(err); // .. promise内でエラーが発生する場合を踏まえて、catchしておく
     }
 })();
