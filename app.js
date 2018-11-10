@@ -8,8 +8,11 @@ process.on('uncaughtException', function (err) {
     console.log(err);
 });
 
-const userId = process.argv[2];   // 引数.. ユーザ名
-const password = process.argv[3]; // 引数.. パスワード
+/* ユーザ名／パスワード */
+const userId = process.argv[2];
+const password = process.argv[3];
+// DropBoxへのファイル保存
+const isSaved = !!process.argv[4] || false;
 
 // ユーザIDやパスワードが未設定の場合、処理終了
 if ((userId === null || userId === undefined) || (password === null || password === undefined))
@@ -19,7 +22,7 @@ if ((userId === null || userId === undefined) || (password === null || password 
 const conf = JSON.parse(fs.readFileSync('./init.json', 'utf8'));
 
 /* メイン処理開始 */
-(async function () {
+(async () => {
     // webサイトにアクセス
     let overTime = await getOverTime(userId, password);
     if (overTime === undefined || overTime === null) return;
@@ -33,7 +36,7 @@ const conf = JSON.parse(fs.readFileSync('./init.json', 'utf8'));
     //#endregion
     // 提出用のフォルダにコピーする
     try {
-        await require('fs-extra').copy(fileName, path.join(conf.outputDir, fileName));
+        if (isSaved) await require('fs-extra').copy(fileName, path.join(conf.outputDir, fileName));
     } catch (err) {
         console.log(err); // .. promise内でエラーが発生する場合を踏まえて、catchしておく
     }
