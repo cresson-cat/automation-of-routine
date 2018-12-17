@@ -61,7 +61,7 @@ typings/
 .next
 
 # テンプレートを除外
-.xlsx
+*.xlsx
 
 # chromedriverを除外
-chromedriver*
+chromedriver
