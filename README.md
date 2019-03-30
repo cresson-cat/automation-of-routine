@@ -5,8 +5,24 @@
 1. テンプレを右記パスに格納する「./template/temp.xlsx」
 2. テンプレ1シート目のA9セルに、自分の名前を記入する
 3. 「init.json」にユーザ／パスワードを記入する
-4. 必要に応じて「init.json」のその他項目を更新する
-5. 自OS用のchromedriverをダウンロードして上書き（インストール済のchromedriverは、MacOS 64bit版）
+4. 自OS用のchromedriverをダウンロードして上書き（インストール済のchromedriverは、MacOS 64bit版）
+5. 以下のいずれかの方法で実行する
+   1. nodeコマンドで実行
+
+      ```bash
+      # インストール
+      node cron.js
+      ```
+
+   2. pm2で実行
+
+      ```bash
+      # 必要に応じてインストール
+      npm i -g pm2
+
+      # 実行
+      pm2 start cron.js
+      ```
 
 ## 補足事項
 
