@@ -10,7 +10,7 @@
     "___各週の予想残業時間___": "___",
     "expectedOvertime": 3,
     "___提供用フォルダへの保存有無___": "___",
-    "isSaved": true,
+    "isSaved": false,
     "___提出用のフォルダ___": "___",
     "outputDir": "/Users/------/Dropbox/corp-reports/"
 }
