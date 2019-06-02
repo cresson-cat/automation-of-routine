@@ -65,3 +65,6 @@ typings/
 
 # chromedriverを除外
 chromedriver
+
+# 設定ファイル
+init.json
