@@ -19,8 +19,8 @@
   "homepage": "https://github.com/D-A-I/automation-of-routine#readme",
   "devDependencies": {},
   "dependencies": {
-    "exceljs": "^1.4.13",
-    "fs-extra": "^6.0.1",
+    "exceljs": "^1.12.0",
+    "fs-extra": "^8.0.1",
     "koyomi": "^0.5.1",
     "moment": "^2.22.2",
     "node-cron": "^2.0.3",
