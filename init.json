@@ -1,8 +1,8 @@
 {
     "___ユーザID___": "___",
-    "userId": "316214961",
+    "userId": "",
     "___パスワード___": "___",
-    "password": "HO15_______",
+    "password": "",
     "___1週目の残業時間___": "___",
     "overTimeAt1stWk": 2,
     "___1日の基本稼働時間___": "___",
@@ -12,5 +12,5 @@
     "___提供用フォルダへの保存有無___": "___",
     "isSaved": false,
     "___提出用のフォルダ___": "___",
-    "outputDir": "/Users/kanegadai/Dropbox/corp-reports/"
+    "outputDir": "/Users/-----/Dropbox/corp-reports/"
 }
