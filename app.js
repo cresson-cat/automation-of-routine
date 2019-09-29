@@ -26,13 +26,10 @@ const main = function () {
     // 週次の報告資料を作成
     let fileName = await createReport(overTime, conf);
     if (!fileName) return;
-    //#region OSによってfs.copyFileSync（node.js v8.9.4）に失敗したため、fs-extraを使う 
-    /* ・ubuntu 16.04 LTS：失敗
-     * ・macOS High Sierra 10.13.4：成功
-     * .. いずれ解決したい */
-    //#endregion
-    // 提出用のフォルダにコピーする
+    /* `ubuntu16.04`の場合、fs.copyFileSync（node.js v8.9.4）に失敗したため、fs-extraを使う
+     * >> 恐らくもう大丈夫だと思うが、検証が面倒なんで、そのままにしとく */
     try {
+      // 提出用のフォルダにコピーする
       if (isSaved) await require('fs-extra').copy(fileName, path.join(conf.outputDir, fileName));
     } catch (err) {
       console.log(err);
